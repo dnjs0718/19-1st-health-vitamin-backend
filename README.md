@@ -1,4 +1,5 @@
-# Duft & Doft를 모티브로 한 프로젝트 ```Health & Vitamin```
+# Duft & Doft를 모티브로 한 프로젝트
+```Health & Vitamin```
 
 # Duft & Doft 사이트 소개
 Duft & Doft는 바디로션,핸드크림을 판매하는 사이트로써, 간결한 UI와 과하지 않은 동적 요소를 가지고 있어 1차 프로젝트로 선정하게 되었습니다.
