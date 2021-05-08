@@ -13,4 +13,4 @@
 **박형섭** - 회원가입(POST) / 로그인(POST) / 관심상품(GET,POST,DELETE) 구현
 
 # 🥇 기술 스텍
-Python, Django, AWS
+Python, Django, AWS(EC2,RDS)
