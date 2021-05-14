@@ -62,20 +62,15 @@ class ProductDetailView(View):
 
 class CategoryView(View):
     def get(self,request):
-        try:
-            categories = MainCategory.objects.all()
             category_list = [{
                 'main_category_id'   : category.id,
                 'main_category_name' : category.name,
                 'main_category_list' : [{'category_id'  : subcategory.id,
                                          'category_name' : subcategory.name
                                         } for subcategory in category.subcategory_set.all()]
-                }for category in categories]
+                } for category in MainCategory.objects.all()]
 
             return JsonResponse({'category': category_list}, status = 200)
-
-        except KeyError:
-            return JsonResponse({'MESSAGE':'KEY_ERROR'}, status = 400)
     
 class ProductlistView(View):
     def get(self,request,sub_category_id):
@@ -87,9 +82,6 @@ class ProductlistView(View):
             
             if sub_category_id == ALL_PRODUCTS:
                 products = Product.objects.all()
-
-            if not products.exists():
-                return JsonResponse({"MESSAGE":"PRODUCT_DOES_NOT_EXIST"}, status=404)
 
             product_list = [{
                     'name'       : product.name,
@@ -103,13 +95,13 @@ class ProductlistView(View):
                     
             return JsonResponse({'product': product_list[offset:offset+limit], 'total' : len(product_list)} ,status = 200)
         
-        except KeyError:
-            return JsonResponse({'MESSAGE':'KEY_ERROR'}, status = 400)
+        except Product.DoesNotExist:
+            return JsonResponse({'MESSAGE':"PRODUCT_DOES_NOT_EXIST"}, status = 400)
 
 class ProductReviewView(View):
     def get(self,request):
         try:
-            reviews = Review.objects.all().order_by('uploaded_at')[:10]
+            reviews = Review.objects.select_related('product','user').all().order_by('uploaded_at')[:10]
             main_page_review_list=[{
                     'review_id'         : review.id,
                     'product_name'      : review.product.name,
